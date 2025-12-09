@@ -1,24 +1,30 @@
 package com.example.vibechat.controller;
 
+import com.example.vibechat.JwtUtil;
 import com.example.vibechat.model.User;
-import com.example.vibechat.repository.UserRepository;
+import com.example.vibechat.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
-     private final UserRepository userRepo;
 
-     public UserController(UserRepository userRepo){
-         this.userRepo = userRepo;
-     }
+    private final UserService userService;
 
-    @PostMapping("/create")
-    public ResponseEntity<String> createUser(@RequestBody User request) {
-         System.out.println(request);
+    public UserController(UserService userService){
+        this.userService = userService;
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> createUser(@RequestBody User request) {
         try {
-            userRepo.save(request);
+            String msg = userService.signUp(request);
             return ResponseEntity.ok("User created successfully ✔");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
@@ -26,4 +32,21 @@ public class UserController {
             return ResponseEntity.internalServerError().body("Server error: " + e.getMessage());
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User req){
+        try {
+            String msg = userService.signIn(req);
+            if(msg.equals("Success")){
+                String token = JwtUtil.generateToken(req.getUserName());
+                return ResponseEntity.ok(Map.of("username", req.getUserName(), "token", token));
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(msg);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Server error: " + e.getMessage());
+        }
+    }
+
 }

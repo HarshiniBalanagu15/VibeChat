@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class User {
 
-    private Long id;
     private String firstName;
     private String lastName;
     private String userName;

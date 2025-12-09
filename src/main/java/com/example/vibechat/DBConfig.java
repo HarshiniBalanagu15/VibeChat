@@ -2,13 +2,16 @@ package com.example.vibechat;
 
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.http.HTTPRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DBConfig {
-    private String uri = "http://Hemanth:7200";
-    private String repoId = "VibeChat";
+    @Value("${GRAPHDB_URI}")
+    private String uri ;
+    @Value("${GRAPHDB_REPO_ID}")
+    private String repoId;
 
     @Bean
     public Repository graphDbRepository() {

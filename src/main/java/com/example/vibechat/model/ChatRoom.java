@@ -5,17 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Chat {
+public class ChatRoom {
 
-    private String belongToChatRoom;
-    private LocalDateTime time;
-    private String sender;
-    private String message;
+    private String chatRoomId;
+    private List<String> hasMessages;
 
 }
