@@ -15,15 +15,17 @@ public class ChatRepository {
         this.sparqlService = sparqlService;
     }
 
-    public void createChatRoom(String chatRoomId){
+    public void createChatRoom(String chatRoomId, String u1, String u2){
         String query = String.format("""
                 PREFIX : <http://example.com/schema#>
                 
                 INSERT DATA {
                     :ChatRoom_%s a :ChatRoom ;
-                        :chatRoomId "%s" .
+                        :chatRoomId "%s" ;
+                        :hasUsers %s;
+                        :hasUsers %s.
                 }
-                """, chatRoomId, chatRoomId);
+                """, chatRoomId, chatRoomId, u1, u2);
         sparqlService.update(query);
     }
 
@@ -36,6 +38,7 @@ public class ChatRepository {
                 INSERT DATA{
                     <%s> a :Chat;
                         :sender "%s";
+                        
                         :message "%s";
                         :time "%s".
                     :ChatRoom_%s :hasMessage <%s>

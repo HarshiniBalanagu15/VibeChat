@@ -16,7 +16,7 @@ public class ChatService {
 
     public void createChatRoom(String u1, String u2){
         String chatRoomId =  u1.compareTo(u2) < 0 ? u1.concat(u2) : u2.concat(u1);
-        chatRepo.createChatRoom(chatRoomId);
+        chatRepo.createChatRoom(chatRoomId, u1, u2);
     }
 
     public void updateChat(String ChatId, Chat chat){

@@ -2,6 +2,7 @@ package com.example.vibechat.service;
 
 import com.example.vibechat.model.User;
 import com.example.vibechat.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -9,9 +10,11 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepo){
+    public UserService(UserRepository userRepo, PasswordEncoder passwordEncoder){
         this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public String signUp(User user){
@@ -20,6 +23,7 @@ public class UserService {
         if(temp.isPresent()){
             return "User Present";
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
         return "Success";
     }
@@ -27,10 +31,8 @@ public class UserService {
     public String signIn(User user){
         String uname = user.getUserName();
         Optional<User> temp = userRepo.findByUsername(uname);
-        System.out.println(temp);
-        System.out.println(user);
         if(temp.isEmpty()){ return "User not Present";}
-        if(temp.get().getPassword().equals(user.getPassword())) {
+        if(passwordEncoder.matches(user.getPassword(), temp.get().getPassword())) {
             return "Success";
         }
         return "Invalid Password";
