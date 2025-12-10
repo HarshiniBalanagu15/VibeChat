@@ -38,7 +38,6 @@ public class ChatRepository {
                 INSERT DATA{
                     <%s> a :Chat;
                         :sender "%s";
-                        
                         :message "%s";
                         :time "%s".
                     :ChatRoom_%s :hasMessage <%s>
@@ -64,4 +63,19 @@ public class ChatRepository {
                 """, chatRoomId);
         return sparqlService.select(query);
     }
+
+    public List<Map<String, String>> getChatsForUser(String user){
+        String query = String.format("""
+                    PREFIX : <http://example.com/schema#>
+                    
+                    SELECT ?chatRoom ?chatRoomId
+                    WHERE{
+                        ?chaRoom a :ChatRoom;
+                                :chatRoomId ?chatRoomId;
+                                :hasUsers "%s".
+                    }
+                """, user);
+        return sparqlService.select(query);
+    }
+
 }
