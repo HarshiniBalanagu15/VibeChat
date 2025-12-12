@@ -38,4 +38,9 @@ public class ChatController {
         return ResponseEntity.ok(chatRepo.getChat(chatRoomId));
     }
 
+    @GetMapping("/getChatsForUser/{user}")
+    public ResponseEntity<?> getChatsForUSer(@PathVariable String user){
+        return ResponseEntity.ok(chatRepo.getChatsForUser(user));
+    }
+
 }

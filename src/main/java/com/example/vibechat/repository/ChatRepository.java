@@ -22,8 +22,8 @@ public class ChatRepository {
                 INSERT DATA {
                     :ChatRoom_%s a :ChatRoom ;
                         :chatRoomId "%s" ;
-                        :hasUsers %s;
-                        :hasUsers %s.
+                        :hasUsers "%s" ;
+                        :hasUsers "%s" .
                 }
                 """, chatRoomId, chatRoomId, u1, u2);
         sparqlService.update(query);
@@ -37,9 +37,9 @@ public class ChatRepository {
                 
                 INSERT DATA{
                     <%s> a :Chat;
-                        :sender "%s";
-                        :message "%s";
-                        :time "%s".
+                        :sender "%s" ;
+                        :message "%s" ;
+                        :time "%s" .
                     :ChatRoom_%s :hasMessage <%s>
                 }
                 """, chatURI, chat.getSender(),chat.getMessage(),chat.getTime(),chatRoomId,chatURI);
@@ -68,13 +68,16 @@ public class ChatRepository {
         String query = String.format("""
                     PREFIX : <http://example.com/schema#>
                     
-                    SELECT ?chatRoom ?chatRoomId
+                    SELECT ?chatRoom ?chatRoomId ?user
                     WHERE{
-                        ?chaRoom a :ChatRoom;
+                        ?chatRoom a :ChatRoom;
                                 :chatRoomId ?chatRoomId;
-                                :hasUsers "%s".
+                                :hasUsers ?user ;
+                                :hasUsers "%s" .
+                                
+                        FILTER( ?user != "%s" )
                     }
-                """, user);
+                """, user, user);
         return sparqlService.select(query);
     }
 

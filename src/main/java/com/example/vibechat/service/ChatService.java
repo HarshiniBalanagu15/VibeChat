@@ -1,7 +1,6 @@
 package com.example.vibechat.service;
 
 import com.example.vibechat.model.Chat;
-import com.example.vibechat.model.User;
 import com.example.vibechat.repository.ChatRepository;
 import org.springframework.stereotype.Service;
 
