@@ -81,4 +81,21 @@ public class ChatRepository {
         return sparqlService.select(query);
     }
 
+    public List<String> getUsersInChatWithUser(String user){
+        String query = String.format("""
+                    PREFIX : <http://example.com/schema#>
+                    
+                    SELECT ?username
+                    WHERE{
+                        ?chatRoom a :ChatRoom ;
+                            :hasUsers ?username ;
+                            :hasUsers "%s" .
+                        FILTER( ?username != "%s" )
+                    }
+                """, user, user);
+        return sparqlService.select(query).stream()
+                .map(row -> row.get("username"))
+                .toList();
+    }
+
 }

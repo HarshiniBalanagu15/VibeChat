@@ -10,7 +10,6 @@ public class ChatService {
 
     ChatService(ChatRepository chatRepo){
         this.chatRepo = chatRepo;
-
     }
 
     public void createChatRoom(String u1, String u2){

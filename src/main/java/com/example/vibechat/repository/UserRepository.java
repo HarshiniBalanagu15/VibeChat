@@ -81,4 +81,20 @@ public class UserRepository {
 
         return Optional.of(user);
     }
+
+    public List<String> findAllUsers(){
+        String query = """
+                    PREFIX : <http://example.com/schema#>
+                    
+                    SELECT ?username
+                    WHERE {
+                        ?user a :User ;
+                            :username ?username .
+                    }
+                """;
+        return sparqlService.select(query).stream()
+                .map(row -> row.get("username"))
+                .toList();
+    }
+
 }
