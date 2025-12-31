@@ -1,9 +1,7 @@
 package com.example.vibechat.repository;
-
 import com.example.vibechat.model.User;
 import com.example.vibechat.service.SparqlService;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Map;

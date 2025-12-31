@@ -24,11 +24,10 @@ public class WebSocketController {
     public void send(Chat msg) {
         msg.setTime(LocalDateTime.now());
 
-        chatService.updateChat(msg.getBelongToChatRoom(), msg);
-
         messagingTemplate.convertAndSend(
                 "/topic/chat/" + msg.getBelongToChatRoom(),
                 msg
         );
+        chatService.updateChat(msg.getBelongToChatRoom(), msg);
     }
 }

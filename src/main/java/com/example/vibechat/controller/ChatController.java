@@ -1,5 +1,4 @@
 package com.example.vibechat.controller;
-
 import com.example.vibechat.dto.ChatRoomRequest;
 import com.example.vibechat.model.Chat;
 import com.example.vibechat.repository.ChatRepository;
